@@ -5,6 +5,7 @@ import * as expressValidator from 'express-validator';
 import AbstractController from "./base/AbstractController";
 import AbstractCrud from "./base/AbstractCrud";
 import AuthService from "./middleware/AuthMiddleware";
+import * as cors from 'cors';
 import * as path from "path";
 
 export default class App {
@@ -42,6 +43,7 @@ export default class App {
         this.app.use(bodyParser.json());
         this.app.use(expressValidator());
         this.app.use(AuthService.initialize());
+        this.app.use(cors());
     };
 
     protected initializeControllers = (controllers: AbstractController[], path: string = '/'): void => {

@@ -5,7 +5,7 @@ export default class UserPolicy extends AbstractPolicy<UserType>
 {
     create(manipulator?: UserType): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            resolve('Permission Denied');
+            resolve();
         });
     }
 

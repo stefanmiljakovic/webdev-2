@@ -13,6 +13,7 @@ export namespace Model {
     }
 
     export interface QuestionInterface extends Timestamp{
+        _id?: String,
         title?: String,
         description?: String,
         tags?: String[],
@@ -21,6 +22,7 @@ export namespace Model {
     }
 
     export interface UserInterface extends Timestamp{
+        _id?: String
         email?: String,
         username?: String,
         password?: String,

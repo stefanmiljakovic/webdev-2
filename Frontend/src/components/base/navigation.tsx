@@ -5,6 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {LINKS} from "../../config";
+import {RootStateInterface} from "../../reducers/root";
+import {connect} from "react-redux";
+import {UserInterfaceTokened} from "../../reducers/models/users";
+import {userLogout} from "../../actions/user-actions";
 
 const styles = createStyles({
     root: {
@@ -22,7 +26,10 @@ const styles = createStyles({
     }
 });
 
-export interface Props extends WithStyles<typeof styles> {}
+export interface Props extends WithStyles<typeof styles> {
+    user: UserInterfaceTokened,
+    logout: () => void;
+}
 
 class Navigation extends React.Component<Props, {}> {
 
@@ -40,14 +47,43 @@ class Navigation extends React.Component<Props, {}> {
                             <Button color="inherit" className={classes.homeButton} component={LINKS.HomeLink}>
                                 Home
                             </Button>
-                            <Button color="inherit" component={LINKS.LoginLink}>Login</Button>
-                            <Button color="inherit" component={LINKS.RegisterLink}>Register</Button>
+                            { this.props.user.token ? this.loggedInNav() : this.loggedOutNav()}
                         </Toolbar>
                     </AppBar>
                 </div>
             </React.Fragment>
         );
     }
+
+    loggedInNav = () => {
+        return (
+            <React.Fragment>
+                <Button color={"inherit"} component={LINKS.UserLink(this.props.user.username)}>
+                    {`Profile - ${this.props.user.username}`}
+                </Button>
+                <Button color={"inherit"} onClick={() => this.props.logout()}>Logout</Button>
+            </React.Fragment>
+        )
+    };
+
+    loggedOutNav = () => {
+        return (
+            <React.Fragment>
+                <Button color="inherit" component={LINKS.LoginLink}>Login</Button>
+                <Button color="inherit" component={LINKS.RegisterLink}>Register</Button>
+            </React.Fragment>
+        );
+    };
 }
 
-export default withStyles(styles)(Navigation);
+const mapStateToProps = (state: RootStateInterface) => {
+    return {
+        user: state.users.activeUser
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    logout: () => dispatch(userLogout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Navigation));
