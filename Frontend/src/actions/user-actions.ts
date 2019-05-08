@@ -3,6 +3,7 @@ import {API_ROOT, CRUD_ROOT, setAuthToken} from '../config';
 import {Model} from '../models/models';
 import LoginResponse = Model.LoginResponse;
 import validator from 'validator';
+import {messageError, messageSuccess} from "./snackbar-actions";
 
 export const userLogin = (usernameOrEmail: string, password: string) => {
     return async (dispatch) => {
@@ -16,10 +17,10 @@ export const userLogin = (usernameOrEmail: string, password: string) => {
 
             const response: any = await Axios.post(`${API_ROOT}/auth/login`, data);
             dispatch(applyUserToken(response.data.token));
-
+            dispatch(messageSuccess('Successfully logged in!'))
         } catch (e) {
             console.log(e);
-            dispatch(userLoginError())
+            dispatch(messageError('Error logging in.'));
         }
     };
 };
@@ -32,9 +33,9 @@ export const applyUserToken = (token) => {
 
             const userResponse: any = await Axios.get(`${API_ROOT}/auth/whoami`);
             dispatch(userLoginSuccess({token: token}, userResponse.data));
+            dispatch(messageSuccess('Login restored from session!'));
         } catch (e) {
             console.log(e);
-            dispatch(userLoginError());
         }
     }
 };

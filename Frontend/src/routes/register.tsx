@@ -5,7 +5,7 @@ import {userRegister, userRegisterRefresh} from "../actions/user-register-action
 import {connect} from "react-redux";
 import {RootStateInterface} from "../reducers/root";
 import {MessageInterface, UserInterfaceTokened} from "../reducers/models/users";
-
+import Typography from "@material-ui/core/Typography";
 
 interface Props {
     register: (username: string, email: string, password: string) => void;
@@ -31,6 +31,9 @@ export default class Register extends React.Component<Props, {}> {
     render(): React.ReactNode {
         return (
             <Grid container direction={"column"} justify={"center"} alignItems={"center"}>
+                <Typography variant={'h3'} color={"primary"}>
+                    Register
+                </Typography>
                 <Grid item xs={6}>
                     {this.props.user.token ? this.loggedInMessage() : this.registerForm()}
                 </Grid>
@@ -75,11 +78,12 @@ export default class Register extends React.Component<Props, {}> {
                         margin="normal"
                         type="password"
                     />
-                    <Button fullWidth variant="contained" color="primary" onClick={this.register}>
+                    <Button
+                        style={{marginLeft: 'auto', display: 'block'}}
+                        variant="contained" color="primary" onClick={this.register}>
                         Register
                     </Button>
                 </form>
-                <p>{this.props.userRegister.message}</p>
             </React.Fragment>
         );
     };

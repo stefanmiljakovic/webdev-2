@@ -7,6 +7,7 @@ import {RootStateInterface} from "../reducers/root";
 import {Model} from "../models/models";
 import UserInterface = Model.UserInterface;
 import {activeUserDefault, UserInterfaceTokened} from "../reducers/models/users";
+import Typography from "@material-ui/core/Typography";
 
 interface Props {
     loginAction: (username, password) => Promise<any>;
@@ -30,9 +31,11 @@ export default class Login extends React.Component<Props, {}> {
         console.log(this.props.user);
         return (
             <Grid container direction={"column"} justify={"center"} alignItems={"center"}>
+                <Typography variant={'h3'} color={"primary"}>
+                    Login
+                </Typography>
                 <Grid item xs={6}>
                     {this.props.user.token ? <p>You are logged in</p> : this.loginForm()}
-                    {this.message()}
                 </Grid>
             </Grid>
         );
@@ -59,7 +62,9 @@ export default class Login extends React.Component<Props, {}> {
                     margin="normal"
                     type="password"
                 />
-                <Button fullWidth variant="contained" color="primary" type="button" onClick={this.login.bind(this)}>
+                <Button
+                    style={{marginLeft: 'auto', display: 'block'}}
+                    variant="contained" color="primary" type="button" onClick={this.login.bind(this)}>
                     Login
                 </Button>
             </form>

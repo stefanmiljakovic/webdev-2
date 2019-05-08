@@ -60,6 +60,9 @@ export default class UserCrud extends AbstractCrud {
                 await this.policy.read(null, model);
 
                 response.send(model);
+            } else if (request.query.id){
+              const model = await UserModel.findById(request.query.id).exec();
+              response.send(model);
             } else {
                 const model = await UserModel.find({}).select(['-__v']).exec();
                 response.send(model);

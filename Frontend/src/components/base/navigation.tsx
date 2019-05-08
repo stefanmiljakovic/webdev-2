@@ -13,6 +13,7 @@ import {userLogout} from "../../actions/user-actions";
 const styles = createStyles({
     root: {
         flexGrow: 1,
+        marginBottom: '2rem'
     },
     grow: {
         flexGrow: 1,
@@ -47,6 +48,10 @@ class Navigation extends React.Component<Props, {}> {
                             <Button color="inherit" className={classes.homeButton} component={LINKS.HomeLink}>
                                 Home
                             </Button>
+                            <Button color="inherit" className={classes.homeButton}
+                                    component={LINKS.HotQuestionsLink}>
+                                Hot
+                            </Button>
                             { this.props.user.token ? this.loggedInNav() : this.loggedOutNav()}
                         </Toolbar>
                     </AppBar>
@@ -58,8 +63,11 @@ class Navigation extends React.Component<Props, {}> {
     loggedInNav = () => {
         return (
             <React.Fragment>
-                <Button color={"inherit"} component={LINKS.UserLink(this.props.user.username)}>
-                    {`Profile - ${this.props.user.username}`}
+                <Button color={"inherit"} component={LINKS.MakeQuestionLink}>
+                    Make Question
+                </Button>
+                <Button color={"inherit"} component={LINKS.UserLink(this.props.user._id)}>
+                    {`Profile`}
                 </Button>
                 <Button color={"inherit"} onClick={() => this.props.logout()}>Logout</Button>
             </React.Fragment>

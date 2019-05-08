@@ -1,5 +1,6 @@
 import Axios from "axios";
 import {CRUD_ROOT} from "../config";
+import {messageError, messageSuccess} from "./snackbar-actions";
 
 export const userRegister = (username: string, email: string, password: string) => {
     return async(dispatch) => {
@@ -12,8 +13,10 @@ export const userRegister = (username: string, email: string, password: string) 
             const response = await Axios.post(`${CRUD_ROOT}/user`, data);
 
             dispatch(userRegisterSuccess())
+            dispatch(messageSuccess('Registration was successful. Proceed to log in.'))
         } catch (e) {
             dispatch(userRegisterFail())
+            dispatch(messageError('Please verify fields again. Something went wrong.'))
         }
     }
 };

@@ -2,6 +2,7 @@ import AbstractController from "../../base/AbstractController";
 import {ExpressCallback} from "../../interface/CrudInterface";
 import {QuestionModel} from "../../model/QuestionModel";
 import {ViewModel} from "../../model/ViewModel";
+import {Types} from "mongoose";
 
 export default class QuestionController extends AbstractController {
 
@@ -43,9 +44,10 @@ export default class QuestionController extends AbstractController {
 
         try {
             await request.getValidationResult();
-            const results = await ViewModel.count({question: request.query.question});
+            const results = await ViewModel.count(
+                {question: Types.ObjectId(request.query.question)});
 
-            response.send(results);
+            response.send({results: results});
         } catch (e) {
             next(e);
         }
@@ -82,7 +84,14 @@ export default class QuestionController extends AbstractController {
                     }}
             ]);
 
-            response.send(hot);
+            const data = [];
+
+            for(let i = 0; i < hot.length; i++){
+                const d = await QuestionModel.findById(hot[i]._id);
+                data.push(d);
+            }
+
+            response.send(data);
         }
         catch (e) {
             throw e;

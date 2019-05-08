@@ -4,6 +4,7 @@ import AnswerPolicy from "../../policy/AnswerPolicy";
 import AuthMiddleware from "../../middleware/AuthMiddleware";
 import {AnswerModel} from "../../model/AnswerModel";
 import {QuestionModel} from "../../model/QuestionModel";
+import {Types} from "mongoose";
 
 export default class AnswerCrud extends AbstractCrud {
 
@@ -78,8 +79,13 @@ export default class AnswerCrud extends AbstractCrud {
         try {
             if (request.query.id) {
                 model = await AnswerModel.findById(request.query.id).exec();
-            } else {
-                model = await AnswerModel.find({parentAnswer: null});
+            }
+            else if (request.query.question) {
+                model = await AnswerModel
+                    .find({question: Types.ObjectId(request.query.question)}).exec();
+            }
+            else {
+                model = await AnswerModel.find({parentAnswer: null}).exec();
             }
             response.send(model);
         } catch (e) {

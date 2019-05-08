@@ -25,7 +25,10 @@ export const LINKS = {
     HomeLink: props => <Link to="/" {...props} />,
     LoginLink: props => <Link to="/login" {...props} />,
     RegisterLink: props => <Link to="/register" {...props} />,
-    UserLink: after => props => <Link to={`/user/${after}`} {...props} />
+    UserLink: id => props => <Link to={`/user/${id}`} {...props} />,
+    QuestionLink: id => props => <Link to={`/question/${id}`} {...props} />,
+    MakeQuestionLink: props => <Link to={`/make-question`} {...props} />,
+    HotQuestionsLink: props => <Link to={'/hot'} {...props} />
 };
 
 export const store = createStore(

@@ -13,6 +13,11 @@ import Home, {LinkedHome} from "../routes/home";
 import {UserInterfaceTokened} from "../reducers/models/users";
 import {RootStateInterface} from "../reducers/root";
 import {applyUserToken} from "../actions/user-actions";
+import {LinkedMakeQuestion} from "../routes/make-question";
+import {LinkedSnackbar} from "../components/base/snackbar";
+import {LinkedUserProfile} from "../routes/user-profile";
+import {LinkedQuestionView} from "../routes/question-view";
+import {LinkedHotView} from "../routes/hot-view";
 
 interface Props {
     user: UserInterfaceTokened
@@ -35,7 +40,11 @@ export default class Default extends React.Component<Props, {}> {
                 <Route exact path="/login" component={LinkedLogin}/>
                 <Route exact path="/register" component={LinkedRegister}/>
                 <Route exact path="/" component={LinkedHome}/>
-                <Route exact path="/make-question" />
+                <Route exact path="/hot" component={LinkedHotView}/>
+                <Route exact path="/make-question" component={LinkedMakeQuestion}/>
+                <Route path="/user/:id" component={LinkedUserProfile}/>
+                <Route path="/question/:id" component={LinkedQuestionView}/>
+                <LinkedSnackbar />
             </BrowserRouter>
         );
     }

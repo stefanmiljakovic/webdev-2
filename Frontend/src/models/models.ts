@@ -1,13 +1,14 @@
 export namespace Model {
     export interface AnswerInterface extends Timestamp {
+        _id?: string
         content?: String,
         chosen: Boolean,
 
         upvotes: String[],
         downvotes: String[],
 
-        childAnswers?: String[],
-        parentAnswer?: String,
+        childAnswers?: AnswerInterface[],
+        parentAnswer?: AnswerInterface,
         question?: String,
         user?: String
     }

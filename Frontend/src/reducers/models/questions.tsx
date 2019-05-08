@@ -8,7 +8,13 @@ export interface QuestionReducer {
     allQuestions: {
         questions: QuestionInterface[]
     }
-    makeQuestion: MessageInterface
+    makeQuestion: MessageInterface,
+    userQuestions: {
+        questions: QuestionInterface[]
+    },
+    hotQuestions: {
+        questions: QuestionInterface[]
+    }
 }
 
 export const allQuestionsDefault = {questions: []};
@@ -42,6 +48,32 @@ export const questionReducer = combineReducers({
                 return {
                     ...state
                 };
+        }
+    },
+    userQuestions: (state = allQuestionsDefault, action) => {
+        switch (action.type) {
+            case 'USER_QUESTIONS_LOAD':
+                return {
+                    ...state,
+                    questions: action.questions
+                };
+            default:
+                return {
+                    ...state
+                }
+        }
+    },
+    hotQuestions: (state = allQuestionsDefault, action) => {
+        switch (action.type){
+            case 'HOT_QUESTIONS_LOAD':
+                return {
+                    ...state,
+                    questions: action.questions
+                };
+            default:
+                return {
+                    ...state
+                }
         }
     }
 });

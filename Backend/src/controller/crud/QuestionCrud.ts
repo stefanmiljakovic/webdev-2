@@ -3,6 +3,7 @@ import {ExpressCallback} from "../../interface/CrudInterface";
 import AuthMiddleware from "../../middleware/AuthMiddleware";
 import QuestionPolicy from "../../policy/QuestionPolicy";
 import {QuestionInterface, QuestionModel} from "../../model/QuestionModel";
+import {Types} from "mongoose";
 
 
 export default class QuestionCrud extends AbstractCrud {
@@ -35,11 +36,12 @@ export default class QuestionCrud extends AbstractCrud {
     };
 
     destroy: ExpressCallback = async (request, response, next) => {
-        request.checkBody('id').notEmpty();
+        request.checkQuery('id').notEmpty();
 
         try {
             await request.getValidationResult();
-            const question = await QuestionModel.findById(request.body.id).exec();
+            let questionId = request.query.id;
+            const question = await QuestionModel.findById(questionId).exec();
             const user = await AuthMiddleware.authenticate(request, response, next);
 
             await this.policy.destroy(user, question);
@@ -115,23 +117,15 @@ export default class QuestionCrud extends AbstractCrud {
 
     protected readAll = async () => {
         try {
-            return await QuestionModel.find({}).exec();
+            return await QuestionModel.find({}).sort('-createdAt').exec();
         } catch (e) {
             throw e;
         }
     };
 
-    protected readByUser = async (username) => {
+    protected readByUser = async (_id) => {
         try {
-            return await QuestionModel.aggregate([
-                {$lookup: {
-                        from: 'users',
-                        localField: 'user',
-                        foreignField: '_id',
-                        as: 'users',
-                    }},
-                {$match: {'users.username': username}}
-            ]).exec();
+            return await QuestionModel.find({user: Types.ObjectId(_id)}).exec();
         } catch (e) {
             throw e;
         }
