@@ -17,7 +17,7 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/validator": "^10.11.0",
     "awesome-typescript-loader": "^5.2.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
